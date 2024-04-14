@@ -56,11 +56,6 @@ Px, scannerIP_4004 = CIread(s4004)
 print(Px)
 print(scannerIP_4004)
 
-
-Px, scannerIP_4004 = CIread(s4004)
-print(Px)
-print(scannerIP_4004)
-
 #
 # Uncomment the line below to run the example script to zero the scanner.
 #
