@@ -19,7 +19,8 @@ def CIread(s):
 
     """ 
     CI scanner read.
-    Takes a UDP object bound to a scanner PORT, and returns a 16 Px array and the address that sent it.
+    Takes a UDP object bound to a scanner PORT, and returns a 16 Px array formatted
+    as floats and the address that sent it.
     """
     
     byte_data, scannerIP = s.recvfrom(127)
@@ -30,13 +31,7 @@ def CIzero(scannerIP):
 
     """ 
     CI scanner zero.
-    Checks first, then sends a ZERO command to the scanner at scannerIP.
-    
-    print(f"                - WARNING -              ")
-    print(" ")
-    print(f' - ABOUT TO ZERO SCANNER AT {scannerIP} -')
-    print(" ")
-    input(f'- PRESS "ENTER" TO CONTINUE OR "CRTL C" TO STOP -')
+    Sends a ZERO command to the scanner at scannerIP.  
     """
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
@@ -45,12 +40,14 @@ def CIzero(scannerIP):
 
 #
 # Initialise a scanner with it's PORT. The PORT for each scanner should be setup in the web tool, 
-# in SETUP mode using the yellow DIP switch visible through the hole in the back
+# in SETUP mode using the yellow DIP switch visible through the hole on the side of the scanner
+# opposite to the tubulations.
 #
+# This demo assumes the PORT is 4004.
 s4004 = CIinit(4004)
 
 #
-# Grab a sample of data and print
+# Grab a sample of data and print it to the console.
 #
 Px, scannerIP_4004 = CIread(s4004)
 print(Px)
