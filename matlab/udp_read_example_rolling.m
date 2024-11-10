@@ -1,9 +1,9 @@
 
 %
 % Simple example to read a CI pressure scanner and plot the data on a
-% roling timebase
+% rolling timebase
 %
-% Cambridge Instrumentataion, '23
+% Cambridge Instrumentation, '23
 %
 
 clear all
@@ -14,14 +14,14 @@ close all
 % mode
 u4008 = scannerInit(4008);
 
-% Comment out the following "ZERO" command if not needed
+% Comment out the following "ZERO" command if not needed, WARNING, must be wind off to zero
 scannerZERO(u4008)
 
-f = 33;                 % approx sample rate
-T = 3;                  % width of plot in seconds
-N = T*f;                % estimated number of samples in first window
-px_ = zeros(N,16)*NaN;  % empty buffer
-t = linspace(0,T,N);    % approx time vector to fill with real timestamps
+f   = 33;                 % approx sample rate
+T   = 3;                  % width of plot in seconds
+N   = T * f;              % estimated number of samples in first window
+px_ = zeros(N,16) * NaN;  % empty buffer
+t   = linspace(0,T,N);    % approx time vector to fill with real timestamps
 
 i = 1;
 
@@ -76,7 +76,11 @@ end
 
 function u = scannerInit(port)
 
-    % start a udp object at the port setup with the webtool
+    %
+    % this is now compatible with Matlab 2024a onwards
+    %
+
+    % start a udp object at the port setup with the webtool, or hard-coded into the scanner
     u = udpport("datagram",'LocalPort',port);
     u.flush
 
@@ -89,14 +93,14 @@ function scannerZERO(u)
     data = read(u,1,'string');
     
     
-    % white a "ZERO" command, make sure the wind is off
+    % write a "ZERO" command, !!! WARNING !!! make sure the wind is off
     write(u,'ZERO','string',data.SenderAddress,data.SenderPort)
 
 end
 
 function px = scannerRead(u)
 
-    % read the data from the udp pbject 
+    % read the data from the udp object 
     data = read(u,1,'string');
     
     px_tmp = split(data.Data,',');
